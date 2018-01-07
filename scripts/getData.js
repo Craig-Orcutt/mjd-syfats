@@ -1,3 +1,4 @@
+
 'use strict';
 // NASA API KEY: CqX6eZ06gyTrYqgzg5987kKmA6FTRDi0eKt4kHSE
 let $ = require('jquery');
@@ -8,17 +9,7 @@ module.exports.getSpaceCall = (startDate, endDate) => {
             url:`https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=CqX6eZ06gyTrYqgzg5987kKmA6FTRDi0eKt4kHSE`
         })
         .done((data) =>{
-
-            let names = [];
-            let nearEarthObjects = data.near_earth_objects;
-            let dates = Object.keys(nearEarthObjects);
-            dates.forEach(date => {
-                nearEarthObjects[date].forEach(spaceObj => {
-                    names.push(spaceObj.name);
-                });
-            });
-
-            resolve(names);
+            resolve(data);
         })
         .fail((error) => {
             reject(error);
@@ -26,3 +17,14 @@ module.exports.getSpaceCall = (startDate, endDate) => {
     });
 };
 
+module.exports.fuckOff = (toName, fromName) => {
+    return new Promise((resolve,reject) =>{
+        $.ajax({
+            url:`http://www.foaas.com/ing/${toName}/${fromName}`
+        }).done((data)=>{
+            resolve(data);
+        }).fail((error)=>{
+            reject(error);
+        });
+    });
+};
